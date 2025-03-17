@@ -13,9 +13,11 @@ LABEL org.opencontainers.image.base.name="docker.io/ubuntu:$OS_RELEASE"
 LABEL org.opencontainers.image.documentation="/README.md"
 
 # install vsftpd
+# Added net-tools to use netstat to verify the service is listening for healthchecks
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -y &&  \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y vsftpd  && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools && \
     DEBIAN_FRONTEND=noninteractive apt-get clean -y
 
 # Update config file
@@ -38,5 +40,8 @@ EXPOSE 10090-10100/tcp
 
 RUN mkdir /ftp
 VOLUME ['/ftp']
+
+HEALTHCHECK --interval=10s --timeout=3s \
+    CMD netstat -tlpen | grep 21 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
 
 ENTRYPOINT ["/vsftpd_startup.sh"]
