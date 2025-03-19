@@ -9,7 +9,7 @@ if test -f "$USERS_FILE"; then
         mkdir /ftp/$user
         chown $user:$user /ftp/$user
         echo "$user:$password" | chpasswd
-	if [ ! -d "/home/$user" ]; then
+	if [ ! -d "/ftp/$user" ]; then
 		echo "ERROR! User $user does not have a home dir mounted! Run vsftpd container with -v [path]:/home/$user:z to mount a home drive"
 	fi
 
