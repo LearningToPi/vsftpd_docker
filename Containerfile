@@ -39,7 +39,7 @@ EXPOSE 21/tcp
 EXPOSE 10090-10100/tcp
 
 RUN mkdir /ftp
-VOLUME ['/ftp']
+VOLUME /ftp
 
 HEALTHCHECK --interval=10s --timeout=3s \
     CMD netstat -tlpen | grep 21 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
