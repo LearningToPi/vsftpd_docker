@@ -1,15 +1,20 @@
-FROM docker.io/ubuntu:latest
+ARG SOURCE_DISTRO
+ARG SOURCE_TAG
 
-ARG OS_RELEASE
-ARG VERSION
+FROM docker.io/${SOURCE_DISTRO}:${SOURCE_TAG}
 
+ARG SOURCE_DISTRO
+ARG SOURCE_TAG
+ARG BUILD_VERSION
+
+LABEL version="$BUILD_VERSION"
 LABEL org.opencontainers.image.title="VSFTPD container"
 LABEL org.opencontainers.image.description="VSFTP daemon running in a container."
 LABEL org.opencontainers.image.ref.name="learningtopi/vsftpd"
-LABEL org.opencontainers.image.version="$VERSION"
+LABEL org.opencontainers.image.version="$BUILD_VERSION"
 LABEL org.opencontainers.image.source="https://github.com/LearningToPi/vsftpd_docker"
 LABEL org.opencontainers.image.vendor="LearningToPi.com"
-LABEL org.opencontainers.image.base.name="docker.io/ubuntu:$OS_RELEASE"
+LABEL org.opencontainers.image.base.name="docker.io/$SOURCE_DISTRO:$SOURCE_TAG"
 LABEL org.opencontainers.image.documentation="/README.md"
 
 # install vsftpd

@@ -14,10 +14,13 @@ if [ "${RETCODE}" -ne 0 ] ; then
     quit $RETCODE
 fi
 
-IMAGE_SOURCE_DISTRO=`docker image inspect ${SOURCE_DISTRO}:${SOURCE_TAG} -f '{{index .Config.Labels "org.opencontainers.image.ref.name"}}'`
+IMAGE_DISTRO=`docker image inspect ${SOURCE_DISTRO}:${SOURCE_TAG} -f '{{index .Config.Labels "org.opencontainers.image.ref.name"}}'`
 IMAGE_VERSION=`docker image inspect ${SOURCE_DISTRO}:${SOURCE_TAG} -f '{{index .Config.Labels "org.opencontainers.image.version"}}'`
 
-docker build -f Containerfile . -t $REGISTRY/$PACKAGE:${VERSION} -t $REGISTRY/$PACKAGE:latest --build-arg VERSION="${IMAGE_SOURCE_DISTRO}-${IMAGE_VERSION}"
+echo ""
+echo "Pulled ${IMAGE_DISTRO}:${IMAGE_VERSION}"
+
+docker build -f Containerfile . -t $REGISTRY/$PACKAGE:${VERSION} -t $REGISTRY/$PACKAGE:latest --build-arg SOURCE_DISTRO="${IMAGE_DISTRO}" --build-arg SOURCE_TAG="${IMAGE_VERSION}" --build-arg BUILD_VERSION="${VERSION}" 
 RETCODE=$?
 
 if [ "${RETCODE}" -ne 0 ] ; then

@@ -5,7 +5,7 @@ if test -f "$USERS_FILE"; then
     while IFS=: line= read -r uid user password; do
         echo "`date +'%a %b %d %H:%M:%S %Y'` Creating user $user..."
         groupadd -g $uid $user
-        useradd -N -s /bin/bash $user -g $uid -d /ftp/$user
+        useradd -N -s /bin/bash $user -g $uid -u $uid -d /ftp/$user
         mkdir /ftp/$user
         chown $user:$user /ftp/$user
         echo "$user:$password" | chpasswd
