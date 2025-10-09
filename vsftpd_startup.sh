@@ -6,8 +6,7 @@ if test -f "$USERS_FILE"; then
         echo "`date +'%a %b %d %H:%M:%S %Y'` Creating user $user..."
         groupadd -g $uid $user
         useradd -N -s /bin/bash $user -g $uid -u $uid -d /ftp/$user
-        mkdir /ftp/$user
-        chown $user:$user /ftp/$user
+        mkdir /ftp/$user && chown $user:$user /ftp/$user
         echo "$user:$password" | chpasswd
 	if [ ! -d "/ftp/$user" ]; then
 		echo "ERROR! User $user does not have a home dir mounted! Run vsftpd container with -v [path]:/home/$user:z to mount a home drive"
