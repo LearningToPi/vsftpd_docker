@@ -1,11 +1,8 @@
 #!/bin/bash -v
 
-UNAME_ARCH=`uname -m`
+source ./vars.sh
+
 VERSION=$1
-SOURCE_DISTRO='ubuntu'
-SOURCE_TAG='latest'
-REGISTRY="docker.io"
-PACKAGE="learningtopi/vsftpd"
 
 ARCH=$(
     case "$UNAME_ARCH" in
